@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
-import Home from "./Pages/Home";
-import CreateResume from "./Pages/CreateResume";
-import Dashboard from "./Pages/Dashboard";
-import UpdateResume from "./Pages/UpdateResume";
-import SignUp from "./Pages/SignUp";
-import SignIn from "./Pages/SignIn";
+import CreateResume from "./components/CreateAndUpdate/CreateResume";
+import Dashboard from "./components/Dashboard/Dashboard";
+import UpdateResume from "./components/CreateAndUpdate/UpdateResume";
+import SignUp from "./components/auth/SignUp";
+import SignIn from "./components/auth/SignIn";
 import { useUser } from "@clerk/clerk-react";
 import Headers from "./components/headers/Headers";
+import Home from "./components/Home/Home";
 
 function App() {
   const { user, isLoaded, isSignedIn } = useUser();
