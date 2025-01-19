@@ -7,20 +7,20 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { v4 as uuidv4 } from "uuid";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useUser } from "@clerk/clerk-react";
-import { createNewResume } from "../../../services/GlobalApi";
-
-
-type ResumeData = {
+import GlobalApi from "./../../../../services/GlobalApi";
+import SpecificResume from "../resume/[id]/edit/SpecificResume";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"
+export type ResumeData = {
   data: {
     title: string;
     ResumeId: string;
     UserEmail: string | undefined;
-    userName: string | null | undefined;
+    UserName: string | null | undefined;
   };
 };
 function AddResume() {
@@ -28,44 +28,49 @@ function AddResume() {
   const [title, setTitle] = useState("");
   const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
-  const [Data, setData] = useState([]);
+  const [resume, setResume] = useState([]);
+  const navigate=useNavigate()
 
+
+  const getUsers =async () => {
+const email=user?.primaryEmailAddress?.emailAddress
+    const response = await axios.get(`http://localhost:1337/api/user-resumes?filter[email][$eq]=${email}`);
+    setResume(response?.data?.data)
+    console.log(response?.data?.data)
+  };
   useEffect(() => {
-    const dataFetching = async () => {
-      
-    };
-
-    dataFetching(); // Execute the fetch function
-  }, [Data]);
+    getUsers();
+  }, [user]);
 
   const onCreate = async () => {
-    const id = uuidv4();
     setLoading(true);
-  
-    const ResumeData:ResumeData = {
+    const uuid = uuidv4();
+    const data: ResumeData = {
       data: {
         title: title,
-        ResumeId: id,
+        ResumeId: uuid,
         UserEmail: user?.primaryEmailAddress?.emailAddress,
-        userName: user?.fullName,
+        UserName: user?.fullName,
       },
     };
-  createNewResume(ResumeData).then(
-      (res) => {
-        console.log(res);
-        if (res) {
+
+    GlobalApi.CreateNewResume(data).then(
+      (resp) => {
+        // console.log(resp?.data?.data.documentId);
+        navigate(`/Dashboard/resume/${resp.data.data.ResumeId}/edit`)
+
+        if (resp) {
           setLoading(false);
+
         }
       },
-      (error) => {
-        console.log(error)
+      
+      (error:Error) => {
+        console.log(error);
         setLoading(false);
       }
     );
   };
-  
-
-
   return (
     <div>
       <div className="p-14 py-24 border items-center flex justify-center bg-secondary rounded-lg h-[280px] hover:scale-105 transition-all duration-400 hover:shadow-md cursor-pointer border-dashed">
@@ -92,6 +97,15 @@ function AddResume() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      {
+         resume?.map((item)=>{
+             return(
+              <>
+              <SpecificResume id={item.ResumeId} resume={item}/>
+              </>
+             )
+        })
+      }
     </div>
   );
 }

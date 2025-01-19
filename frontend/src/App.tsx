@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Router,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import CreateResume from "./components/CreateAndUpdate/CreateResume";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -8,7 +14,7 @@ import SignIn from "./components/auth/SignIn";
 import { useUser } from "@clerk/clerk-react";
 import Headers from "./components/headers/Headers";
 import Home from "./components/Home/Home";
-
+import SpecificResume from "./components/Dashboard/resume/[id]/edit/SpecificResume";
 function App() {
   const { user, isLoaded, isSignedIn } = useUser();
   const navigate = useNavigate();
@@ -26,6 +32,10 @@ function App() {
           <Route path="/CreateResume" element={<CreateResume />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/UpdateResume" element={<UpdateResume />} />
+          <Route
+            path="/Dashboard/resume/:id/edit"
+            element={<SpecificResume />}
+          />
         </>
       ) : (
         <>
@@ -40,7 +50,7 @@ function App() {
 export default function Root() {
   return (
     <BrowserRouter>
-          <Headers/>
+      <Headers />
 
       <App />
     </BrowserRouter>

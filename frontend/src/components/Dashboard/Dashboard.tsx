@@ -1,7 +1,8 @@
-import React from 'react'
-import AddResume from './AddResume'
+import React, { useEffect } from 'react'
+import AddResume from './components/AddResume'
 
-function Dashboard() {
+function Dashboard() {  
+
   return (
        <>
        <div className="p-10 md:px-20 lg:px-30">
