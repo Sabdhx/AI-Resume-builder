@@ -9,9 +9,9 @@ const axiosClient = axios.create({
   },
 });
 
-const CreateNewResume = (data) => {
+const CreateNewResume =async (data) => {
   try {
-    const response = axiosClient.post("/user-resumes", data);
+    const response =await axiosClient.post("/user-resumes", data);
     console.log("Response:", response.data);
     return response.data;
   } catch (error) {

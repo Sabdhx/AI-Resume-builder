@@ -1,4 +1,3 @@
-import React from 'react'
 import { ResumeData } from '../../../components/AddResume'
 
 type Props = {
@@ -7,8 +6,12 @@ type Props = {
 }
 
 function SpecificResume({resume,id}: Props) {
+  console.log(resume)
   return (
-    <div></div>
+    <div>
+           
+       <h1 className='mx-5 font-bold text-center'>{resume?.title}</h1>
+    </div>
   )
 }
 

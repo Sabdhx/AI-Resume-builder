@@ -11,10 +11,10 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../../ui/button";
 import { useUser } from "@clerk/clerk-react";
-import GlobalApi from "./../../../../services/GlobalApi";
 import SpecificResume from "../resume/[id]/edit/SpecificResume";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import ResumeCards from "./ResumeCards";
 export type ResumeData = {
   data: {
     title: string;
@@ -43,39 +43,35 @@ const email=user?.primaryEmailAddress?.emailAddress
   }, [user]);
 
   const onCreate = async () => {
-    setLoading(true);
-    const uuid = uuidv4();
-    const data: ResumeData = {
-      data: {
-        title: title,
-        ResumeId: uuid,
-        UserEmail: user?.primaryEmailAddress?.emailAddress,
-        UserName: user?.fullName,
-      },
-    };
-
-    GlobalApi.CreateNewResume(data).then(
-      (resp) => {
-        // console.log(resp?.data?.data.documentId);
-        navigate(`/Dashboard/resume/${resp.data.data.ResumeId}/edit`)
-
-        if (resp) {
-          setLoading(false);
-
-        }
-      },
-      
-      (error:Error) => {
-        console.log(error);
-        setLoading(false);
+    try {
+      setLoading(true);
+      const uuid = uuidv4();
+      const data: ResumeData = {
+        data: {
+          title: title,
+          ResumeId: uuid,
+          UserEmail: user?.primaryEmailAddress?.emailAddress,
+          UserName: user?.fullName,
+        },
+      };
+  
+      const resp =await axios.post("http://localhost:1337/api/user-resumes", data);
+      console.log("done",resp.data.data.documentId)
+      if (resp) {
+        setOpen(false);
+        navigate(`/Dashboard/resume/${resp.data.data.documentId}/edit`);
       }
-    );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
+  
   return (
     <div>
-      <div className="p-14 py-24 border items-center flex justify-center bg-secondary rounded-lg h-[280px] hover:scale-105 transition-all duration-400 hover:shadow-md cursor-pointer border-dashed">
-        <PlusSquare onClick={() => setOpen(true)} />
-      </div>
+      
       <Dialog open={open}>
         <DialogContent>
           <DialogHeader>
@@ -97,15 +93,21 @@ const email=user?.primaryEmailAddress?.emailAddress
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      <div className="flex">
+      <div className="p-14 px-[100px] border items-center m-2 bg-secondary rounded-lg h-[280px] hover:scale-105 transition-all duration-400 hover:shadow-md cursor-pointer border-dashed flex justify-center items-center">
+        <PlusSquare onClick={() => setOpen(true)} />
+      </div>
       {
          resume?.map((item)=>{
-             return(
+             return(  
               <>
-              <SpecificResume id={item.ResumeId} resume={item}/>
+              <ResumeCards id={item.ResumeId} resume={item}/>
               </>
              )
         })
       }
+      </div>
+     
     </div>
   );
 }
