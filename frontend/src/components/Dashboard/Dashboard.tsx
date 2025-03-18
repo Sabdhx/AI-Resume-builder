@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react'
 import AddResume from './components/AddResume'
+import axios from 'axios';
 
 function Dashboard() {  
-
+useEffect(()=>{
+  const gettingData=async()=>{
+          const data = await axios.get("http://localhost:1337/api/user-resumes");
+          console.log(data)
+  }
+  gettingData()
+})
   return (
        <>
        <div className="p-10 md:px-20 lg:px-30">

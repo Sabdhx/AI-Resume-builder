@@ -372,7 +372,8 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiUserResumeUserResume extends Struct.CollectionTypeSchema {
   collectionName: 'user_resumes';
   info: {
-    displayName: 'UserResume';
+    description: '';
+    displayName: 'user Resume';
     pluralName: 'user-resumes';
     singularName: 'user-resume';
   };
@@ -390,13 +391,13 @@ export interface ApiUserResumeUserResume extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    ResumeId: Schema.Attribute.String;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    ResumeId: Schema.Attribute.UID;
+    title: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    UserEmail: Schema.Attribute.String;
-    UserName: Schema.Attribute.String;
+    UserEmail: Schema.Attribute.Email & Schema.Attribute.Required;
+    UserName: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 

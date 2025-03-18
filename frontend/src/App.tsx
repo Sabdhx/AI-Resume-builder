@@ -20,9 +20,9 @@ function App() {
   const navigate = useNavigate();
 
   // Redirect to SignIn if not signed in
-  // if (!isSignedIn) {
-  //   navigate("/SignIn");
-  // }
+  if (!isSignedIn) {
+    navigate("/SignIn");
+  }
 
   return (
     <Routes>

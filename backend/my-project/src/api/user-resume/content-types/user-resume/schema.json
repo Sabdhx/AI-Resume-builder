@@ -4,25 +4,26 @@
   "info": {
     "singularName": "user-resume",
     "pluralName": "user-resumes",
-    "displayName": "UserResume"
+    "displayName": "user Resume",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
-    "title": {
+    "UserName": {
       "type": "string",
       "required": true
     },
-    "ResumeId": {
-      "type": "string"
-    },
     "UserEmail": {
-      "type": "string"
+      "type": "email",
+      "required": true
     },
-    "UserName": {
-      "type": "string"
+    "ResumeId": {
+      "type": "uid"
+    },
+    "title": {
+      "type": "text"
     }
   }
 }

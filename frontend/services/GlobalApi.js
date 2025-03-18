@@ -1,33 +1,26 @@
-import axios from "axios";
-
-const API_KEY = import.meta.env.VITE_STRAPI_API_KEY;
-const axiosClient = axios.create({
-  baseURL: "http://localhost:1337/api",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${API_KEY}`,
-  },
-});
-
-const CreateNewResume =async (data) => {
+const onCreate = async () => {
   try {
-    const response =await axiosClient.post("/user-resumes", data);
-    console.log("Response:", response.data);
-    return response.data;
+    setLoading(true);
+    const uuid = uuidv4();
+    const data = {
+      data: {
+        title,
+        ResumeId: uuid,
+        UserEmail: user?.primaryEmailAddress?.emailAddress,
+        UserName: user?.fullName,
+      },
+    };
+
+    const response = await axiosClient.post("/user-resumes", data);
+    console.log("Success:", response.data);
+
+    if (response.data) {
+      setOpen(false);
+      navigate(`/Dashboard/resume/${response.data.data.id}/edit`);
+    }
   } catch (error) {
-    console.error(
-      "Error creating a new resume:",
-      error.response || error.message
-    );
-    throw error;
+    console.error("Error:", error.response?.data || error.message);
+  } finally {
+    setLoading(false);
   }
-};
-const getResume = async (email) => {
-  const response = await axiosClient.get(`/user-resumes?filter[email][$eq]=${email}`);
-
-};
-
-export default {
-  CreateNewResume,
-  getResume,
 };
