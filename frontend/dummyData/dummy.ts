@@ -1,12 +1,12 @@
 // Define the type for Experience
-export interface Experience {
+export type Experience ={
     id: number;
     title: string;
     companyName: string;
     city: string;
     state: string;
-    startDate: string;
-    endDate?: string;
+    startDate: string | Date | undefined;
+    endDate?: string | Date | undefined;
     currentlyWorking: boolean;
     workSummery: string;
   }

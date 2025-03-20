@@ -2,31 +2,34 @@ import React, { useState } from "react";
 import { Input } from "../../../ui/input";
 import { Calendar } from "../../../ui/Calender";
 import { Resume } from "../../../../../dummyData/dummy";
-
-
- type Experience = {
-  id: number;
-  title: string;
-  companyName: string;
-  city: string;
-  state: string;
-  startDate: string;
-  endDate?: string;
-  currentlyWorking: boolean;
-  workSummery: string;
-}
+import RichTextEditor from "../RichTextEditor";
 
 type Props = {
-  experience: Experience;
+  resume: Resume;
   setResume: React.Dispatch<React.SetStateAction<Resume>>;
 };
-function ProfessionalExperience({ experience, setResume }: Props) {
+function ProfessionalExperience({ resume, setResume }: Props) {
   const [numberOfExperiences, setNumberOfExperiences] = useState(0);
- const [input,setInput] = useState("")
 
+  const handleOnChange = (e) => {
+    setResume((prev) => ({
+      ...prev,
+      experience: prev.experience.map((item, i) =>
+        i === 0 ? { ...item, [e.target.name]: e.target.value } : item
+      ),
+    }));
+  };
 
- console.log(experience.title)
+  const handleChangeDate = (e: any) => {
+    setResume((prev) => ({
+      ...prev,
+      experience: prev.experience.map((item, i) =>
+        i === 0 ? { ...item, [e.target.name]: String(e.target.value)} : item
+      ),
+    }));
+  };
 
+  console.log(resume);
   return (
     <div>
       <div className="flex justify-between gap-4 my-4">
@@ -38,8 +41,10 @@ function ProfessionalExperience({ experience, setResume }: Props) {
             name="title"
             className=""
             id="Position title"
-            // value={experience.title}
-             onChange={(e)=>setInput(e.target.value)}
+            value={resume.experience[0].title}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
           />
         </div>
 
@@ -49,9 +54,12 @@ function ProfessionalExperience({ experience, setResume }: Props) {
             type="text"
             required
             className=""
-            // value={experience[numberOfExperiences].companyName}
             id="last Name"
-            // onChange={(e)=>setResume({...resume,experience[numberOfExperiences].title:e.target.value})}
+            name="companyName"
+            value={resume.experience[0].companyName}
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
           />
         </div>
       </div>
@@ -63,8 +71,11 @@ function ProfessionalExperience({ experience, setResume }: Props) {
             required
             className=""
             id="Position title"
-            // value={experience[numberOfExperiences].city}
-            //  onChange={(e)=>setResume({...resume,firstName:e.target.value})}
+            value={resume.experience[0].city}
+            name="city"
+            onChange={(e) => {
+              handleOnChange(e);
+            }}
           />
         </div>
 
@@ -74,37 +85,45 @@ function ProfessionalExperience({ experience, setResume }: Props) {
             type="text"
             required
             className=""
-            // value={experience[numberOfExperiences].state}
             id="last Name"
-           
+            name="state"
+            value={resume.experience[0].state}
+            onChange={(e) => handleOnChange(e)}
           />
         </div>
       </div>
       <div className="flex justify-between gap-4 my-4">
         <div className="flex-1">
           <label htmlFor="Start date">Start Date</label>
-          <Calendar
+          <input
+            type="date"
+            name="startDate"
             required
-            className=""
-            id="Start date"
-            // value={experience[numberOfExperiences].startDate ? new Date(experience[numberOfExperiences].startDate) : undefined}
-            />
+            value={
+              resume.experience[0]?.startDate
+                ? new Date(resume.experience[0].startDate)
+                : undefined
+            }
+            onChange={(e) => handleChangeDate(e)}
+          />
         </div>
 
         <div className="flex-1">
           <label htmlFor="End Date">End Date</label>
-          <Calendar
+          <input
+            type="date"
+            name="endDate"
             required
-            className=""
-            // value={experience[numberOfExperiences].startDate ? new Date(experience[numberOfExperiences].startDate) : undefined}
-            id="End Date"
-            // onChange={(e)=>setResume({...resume,experience[numberOfExperiences].title:e.target.value})}
+            value={
+              resume.experience[0]?.endDate
+                ? new Date(resume.experience[0].endDate)
+                : undefined
+            }
+            onChange={(e) => handleChangeDate(e)}
           />
         </div>
       </div>
-
-
-
+      <RichTextEditor resume={resume} setResume={setResume}/>
     </div>
   );
 }

@@ -65,7 +65,7 @@ function SpecificResume() {
   const steps = [
     <PersonalDetail resume={majorResume} setResume={setMajorResume} />,
     <Summary resume={majorResume} setResume={setMajorResume} />,
-    <ProfessionalExperience experiences={majorResume.experience} seExperiences={setMajorResume} />
+    <ProfessionalExperience resume={majorResume} setResume={setMajorResume} />
   ];
 
   const {componentNumber ,changingComponentNumber} = useResume();
