@@ -1,5 +1,5 @@
 // Define the type for Experience
-interface Experience {
+export interface Experience {
     id: number;
     title: string;
     companyName: string;
@@ -26,7 +26,7 @@ interface Experience {
   interface Skill {
     id: number;
     name: string;
-    rating: number;
+    rating: string;
   }
   
   // Define the type for the full Resume

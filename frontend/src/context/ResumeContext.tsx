@@ -5,6 +5,9 @@ import {Resume} from "../../dummyData/dummy"
 
 // Create the context with default values
 interface ResumeContextType {
+  componentNumber:number
+  setComponentNumber: React.Dispatch<React.SetStateAction<number>>;
+  changingComponentNumber:()=>void
   resumes: Resume;
   setResumes: React.Dispatch<React.SetStateAction<Resume>>;
 }
@@ -14,10 +17,14 @@ const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 // Provider component
 export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const [resumes, setResumes] = useState<Resume>(ResumeDataDummy);
+  const [componentNumber,setComponentNumber] = useState(0)
 
+  const changingComponentNumber=()=>{
+    setComponentNumber(componentNumber + 1)
+  }
 
   return (
-    <ResumeContext.Provider value={{ resumes,setResumes }}>
+    <ResumeContext.Provider value={{ resumes,setResumes,componentNumber,changingComponentNumber }}>
       {children}
     </ResumeContext.Provider>
   );

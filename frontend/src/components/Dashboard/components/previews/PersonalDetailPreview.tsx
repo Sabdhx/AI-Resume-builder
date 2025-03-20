@@ -5,7 +5,6 @@ type Props = {
 }
 
 function PersonalDetailPreview({resume}: Props) {
-  console.log(resume)
   return (
     <div className=' text-center '>
 

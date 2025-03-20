@@ -1,19 +1,93 @@
+import { useState } from "react";
 import { useResume } from "../../../../../context/ResumeContext";
 import EducationalPreview from "../../../components/previews/EducationalPreview";
 import ExperiencePreview from "../../../components/previews/ExperiencePreview";
 import PersonalDetailPreview from "../../../components/previews/PersonalDetailPreview";
 import SkillPreview from "../../../components/previews/SkillPreview";
 import SummaryPreview from "../../../components/previews/SummaryPreview";
-import { Resume } from "../../../../../../dummyData/dummy";
+import SmallNavbar from "../../../components/SmallNavbar";
+import PersonalDetail from "../../../components/formSection/PersonalDetail";
+import { Button } from "../../../../ui/button";
+import Summary from "../../../components/formSection/Summary";
+import ProfessionalExperience from "../../../components/formSection/ProfessionalExperience";
+import {Resume} from "../../../../../../dummyData/dummy"
+
 
 function SpecificResume() {
   const { resumes } = useResume();
-  console.log("specific " + resumes);
+  // const [currentStep, setCurrentStep] = useState(0);
+  const [majorResume,setMajorResume] = useState<Resume>(
+    {
+      firstName: '',
+      lastName: '',
+      jobTitle: '',
+      address: '',
+      phone: '',
+      email: '',
+      themeColor: '',
+      summery: '',
+      experience: [
+          {
+              id: 0,
+              title: '',
+              companyName: '',
+              city: '',
+              state: '',
+              startDate: '',
+              endDate: '',
+              currentlyWorking: false,
+              workSummery: '',
+          },
+         
+      ],
+      education: [
+          {
+              id: 0,
+              universityName: '',
+              startDate:'',
+              endDate: '',
+              degree: '',
+              major: '',
+              description: '',
+          }
+          
+      ],
+      skills: [
+          {
+              id: 0,
+              name: '',
+              rating: '',
+          },
+         
+      ]
+    }
+  )
+  const steps = [
+    <PersonalDetail resume={majorResume} setResume={setMajorResume} />,
+    <Summary resume={majorResume} setResume={setMajorResume} />,
+    <ProfessionalExperience experiences={majorResume.experience} seExperiences={setMajorResume} />
+  ];
+
+  const {componentNumber ,changingComponentNumber} = useResume();
   const resumeThemeColor = resumes.themeColor;
+  
+  const handleSave=()=>{
+    changingComponentNumber()
+  }
+console.log(majorResume)
+
+
   return (
     <div className="flex justify-between mx-[10%]">
-      <div className="flex-1 bg-gray-400"></div>
+      <div className="flex-1 ">
+        <SmallNavbar/>
+     
+        <div className="m-4 border p-3 rounded-xl shadow-lg border-t-4 border-purple-500">
+  {steps[componentNumber]}
+  <div className="flex justify-between m-2 "><div></div>   <div><Button className="bg-purple-500" onClick={handleSave}>{componentNumber < 2     ? "Save" : "Submit" }</Button></div></div>
+</div>
 
+</div>
       <div className="flex-1 bg-red-200 px-9">
         <hr className={`mb-7 `} style={{ borderColor: resumeThemeColor }} />
         <div>
@@ -42,7 +116,7 @@ function SpecificResume() {
         <h1 className="text-2xl text-red-600 font-bold text-center"
         style={{color:resumeThemeColor}}
         >
-          Education
+          Education 
         </h1>
         <hr
           className={`border-t-2 `}
