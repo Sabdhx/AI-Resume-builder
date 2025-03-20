@@ -74,8 +74,8 @@ function SpecificResume() {
   const handleSave=()=>{
     changingComponentNumber()
   }
-console.log(majorResume)
 
+console.log(majorResume);
 
   return (
     <div className="flex justify-between mx-[10%]">
@@ -138,6 +138,7 @@ console.log(majorResume)
           <SkillPreview resume={resumes} />
         </div>
       </div>
+     
     </div>
   );
 }
