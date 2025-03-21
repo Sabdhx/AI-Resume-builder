@@ -9,13 +9,16 @@ type Props={
   index:number;
 }
 const StarRating = ({resume,setResume,index}:Props) => {
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(0);
+
   useEffect(() => {
     const handleRating = () => {
+
+      const convertingDegree:any | number = rating * 20
       setResume((prev) => ({
         ...prev,
         skills: prev.skills.map((skill, i) =>
-          index === i ? { ...skill,rating } : skill
+          index === i ? { ...skill,rating:convertingDegree } : skill
         ),
       }));
     };

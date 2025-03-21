@@ -8,16 +8,58 @@ interface ResumeContextType {
   componentNumber:number
   setComponentNumber: React.Dispatch<React.SetStateAction<number>>;
   changingComponentNumber:()=>void
-  resumes: Resume;
-  setResumes: React.Dispatch<React.SetStateAction<Resume>>;
+  majorResume: Resume;
+  setMajorResume: React.Dispatch<React.SetStateAction<Resume>>;
+  incrementingComponentNumber:()=>void;
+  decrementingComponentNumber:()=>void
+
 }
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
 // Provider component
 export const ResumeProvider = ({ children }: { children: ReactNode }) => {
-  const [resumes, setResumes] = useState<Resume>(ResumeDataDummy);
-  const [componentNumber,setComponentNumber] = useState(0)
+  const [majorResume, setMajorResume] = useState<Resume>({
+    firstName: "",
+    lastName: "",
+    jobTitle: "",
+    address: "",
+    phone: "",
+    email: "",
+    themeColor: "#FF0000",
+    summery: "",
+    experience: [
+      {
+        id: 0,
+        title: "",
+        companyName: "",
+        city: "",
+        state: "",
+        startDate: "",
+        endDate: "",
+        currentlyWorking: false,
+        workSummery: "",
+      },
+    ],
+    education: [
+      {
+        id: 0,
+        universityName: "",
+        startDate: "",
+        endDate: "",
+        degree: "",
+        major: "",
+        description: "",
+      },
+    ],
+    skills: [
+      {
+        id: 0,
+        name: "",
+        rating: "",
+      },
+    ],
+  });  const [componentNumber,setComponentNumber] = useState(0)
 
   const incrementingComponentNumber=()=>{
     setComponentNumber(componentNumber + 1)
@@ -27,7 +69,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
     setComponentNumber(componentNumber - 1)
   }
   return (
-    <ResumeContext.Provider value={{ resumes,setResumes,componentNumber,incrementingComponentNumber,decrementingComponentNumber }}>
+    <ResumeContext.Provider value={{ majorResume, setMajorResume,componentNumber,incrementingComponentNumber,decrementingComponentNumber }}>
       {children}
     </ResumeContext.Provider>
   );
