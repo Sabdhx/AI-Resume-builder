@@ -172,10 +172,11 @@ function ProfessionalExperience({ resume, setResume }: Props) {
               />
             </div>
           </div>
-
+<label htmlFor="workSummery">Work Summery</label>
           <Editor
             value={item.workSummery}
             name="workSummery"
+            id="workSummary"
             onChange={(e) => handleSummary(e as any, index)}
           >
             <Toolbar>

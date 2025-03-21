@@ -19,12 +19,15 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const [resumes, setResumes] = useState<Resume>(ResumeDataDummy);
   const [componentNumber,setComponentNumber] = useState(0)
 
-  const changingComponentNumber=()=>{
+  const incrementingComponentNumber=()=>{
     setComponentNumber(componentNumber + 1)
   }
-
+ 
+  const decrementingComponentNumber=()=>{
+    setComponentNumber(componentNumber - 1)
+  }
   return (
-    <ResumeContext.Provider value={{ resumes,setResumes,componentNumber,changingComponentNumber }}>
+    <ResumeContext.Provider value={{ resumes,setResumes,componentNumber,incrementingComponentNumber,decrementingComponentNumber }}>
       {children}
     </ResumeContext.Provider>
   );
