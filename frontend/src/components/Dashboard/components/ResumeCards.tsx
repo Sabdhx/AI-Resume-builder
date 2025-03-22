@@ -12,11 +12,11 @@ type Props = {
 function ResumeCards({resume,id,title}: Props) {
     const navigate = useNavigate()
 
-    console.log("thsi is resume id"+resume?.ResumeId)
+    console.log("thsi is resume id"+resume?.id)
   return (
     <div key={id}>
         <div 
-         onClick={()=>navigate(`/Dashboard/resume/${resume?.ResumeId}/edit`)} 
+         onClick={()=>navigate(`/Dashboard/resume/${resume?.documentId}/edit`)} 
         className="p-14 px-[100px] border items-center m-2 bg-secondary rounded-lg h-[280px] hover:scale-105 transition-all duration-400 hover:shadow-md cursor-pointer border-dashed flex justify-center ">
        <Notebook/>
       </div> 

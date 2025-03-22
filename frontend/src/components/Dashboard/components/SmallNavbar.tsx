@@ -6,7 +6,8 @@ import { useResume } from '../../../context/ResumeContext';
 
 
 
-function SmallNavbar() {
+function SmallNavbar(isOpen:boolean) {
+  console.log(isOpen)
   const navigate = useNavigate()
   const {componentNumber,decrementingComponentNumber , incrementingComponentNumber} = useResume();
 
@@ -15,7 +16,7 @@ function SmallNavbar() {
     <div className='flex justify-between'>
       <div className='flex gap-4'>
       <div >
-        <Button className=' bg-purple-500' onClick={()=>navigate("/")}>home</Button>
+        <Button className=' bg-purple-500'  onClick={()=>navigate("/")}>home</Button>
       </div>
       <div>
         <Button className=' flex gap-2 bg-purple-500' > <LayoutGrid/>Theme</Button>
@@ -27,7 +28,7 @@ function SmallNavbar() {
         <Button className='bg-purple-500' onClick={()=>decrementingComponentNumber()}>Previous</Button>
       </div>
       <div>
-        <Button className='bg-purple-500'onClick={()=>incrementingComponentNumber()} > Next</Button>
+      <Button disabled={!isOpen.isOpen} className='bg-purple-500'onClick={()=>incrementingComponentNumber()} > Next</Button>
       </div>
       </div>
 

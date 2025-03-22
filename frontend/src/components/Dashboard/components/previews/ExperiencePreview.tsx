@@ -8,7 +8,7 @@ type Props = {
 function ExperiencePreview({ resume }: Props) {
   return (
     <div>
-      {resume.experience.map((exp, index) => (
+      {resume.experience.map((exp:any ) => (
         <div key={exp.id} className="my-3">
           <div className="text-xl font-medium">{exp.title}</div>
           <div className="flex justify-between">

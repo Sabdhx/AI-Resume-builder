@@ -31,8 +31,8 @@ function AddResume() {
   const [loading, setLoading] = useState<boolean>(false);
   const [resume, setResume] = useState([]);
   const navigate = useNavigate();
-
-  const getUsers = async () => {
+  // http://localhost:1337/api/user-resumes
+  const  getUsers = async () => {
     try {
       const email = user?.primaryEmailAddress?.emailAddress;
       const response = await axios.get(
@@ -44,7 +44,7 @@ function AddResume() {
         }
       );
       setResume(response?.data?.data);
-      // console.log("User Resumes:", response?.data?.data);
+   
     } catch (error) {
       console.error("Error fetching user resumes:", error);
     }
@@ -83,7 +83,7 @@ function AddResume() {
 
       if (resp.data && resp.data.data.id) {
         setOpen(false);
-        navigate(`/Dashboard/resume/${resp.data.data.id}/edit`);
+        navigate(`/Dashboard/resume/${resp.data.data.documentId}/edit`);
       } else {
         console.error("Error: Document ID not found in response.");
       }

@@ -6,9 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import "./App.css";
-import CreateResume from "./components/CreateAndUpdate/CreateResume";
 import Dashboard from "./components/Dashboard/Dashboard";
-import UpdateResume from "./components/CreateAndUpdate/UpdateResume";
 import SignUp from "./components/auth/SignUp";
 import SignIn from "./components/auth/SignIn";
 import { useUser } from "@clerk/clerk-react";
@@ -29,9 +27,7 @@ function App() {
       {isSignedIn ? (
         <>
           <Route path="/" element={<Home />} />
-          <Route path="/CreateResume" element={<CreateResume />} />
           <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/UpdateResume" element={<UpdateResume />} />
           <Route
             path="/Dashboard/resume/:id/edit"
             element={<SpecificResume />}
