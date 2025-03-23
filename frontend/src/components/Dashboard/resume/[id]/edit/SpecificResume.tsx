@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useResume } from "../../../../../context/ResumeContext";
 import EducationalPreview from "../../../components/previews/EducationalPreview";
 import ExperiencePreview from "../../../components/previews/ExperiencePreview";
@@ -14,17 +14,29 @@ import { Resume } from "../../../../../../dummyData/dummy";
 import EducationForm from "../../../components/formSection/EducationForm";
 import Skills from "../../../components/formSection/Skills";
 import { useParams } from "react-router-dom";
-
+import GlobalApi from "../../../../../../services/GlobalApi";
 function SpecificResume() {
   const {  majorResume, setMajorResume,isOpen,setIsOpen } = useResume();
+  const [loading,setLoading] = useState(false)
  const params = useParams();
- console.log(params)
+ useEffect(()=>{
+  const gettingData = async()=>{
+    setLoading(true)
+    const id:string  = params.id
+    const response =await GlobalApi.getData(id);
+    console.log(response.data.data)
+
+    // setMajorResume(response?.data?.data)
+    setLoading(false)
+  }
+ gettingData()
+ },[])
   const steps = [
     <PersonalDetail resume={majorResume} setResume={setMajorResume} id={params.id}  isOpen={isOpen} setIsOpen={setIsOpen}/>,
     <Summary resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
     <ProfessionalExperience resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
-    <EducationForm resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen}/>,
-    <Skills resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen}/>,
+    <EducationForm resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
+    <Skills resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>
   ];
 
   const { componentNumber, incrementingComponentNumber } = useResume();

@@ -98,10 +98,9 @@ export default function Summary({ resume, setResume, isOpen, setIsOpen,id }: Pro
               ...prevResume,
               [name]: value,
             }));
-            setResume((prevResume) => ({
-              ...prevResume,
-              [name]: value,
-            }));
+            setSummery(
+               value
+           );
           }}
           rows={5}
           className="w-full p-2"

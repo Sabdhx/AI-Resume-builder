@@ -32,10 +32,9 @@ const uploadPersonalInformation = async ({ id, data }: Props) => {
  
 };
 
- const getData=async()=>{
+ const getData=async(id:string)=>{
   try {
-     const response = await axiosClient.get("/user-resumes?populate=*")
-     console.log(response)
+     const response = await axiosClient.get(`/user-resumes/${id}?populate=*`)
   } catch (error:any) {
     console.log(error.message)
   }
@@ -45,4 +44,5 @@ const uploadPersonalInformation = async ({ id, data }: Props) => {
 
 export default {
   uploadPersonalInformation,
+  getData
 };

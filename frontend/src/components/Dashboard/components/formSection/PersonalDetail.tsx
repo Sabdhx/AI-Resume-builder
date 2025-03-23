@@ -157,10 +157,13 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
             />
           </div>
 
-          <div>
-            <Button className="bg-purple-500" type="submit">
-              Save
-            </Button>
+          <div className="flex justify-between my-6">
+            <div></div>
+            <div>
+              <Button className="bg-purple-500" onClick={handleSave}>
+                Save
+              </Button>
+            </div>
           </div>
         </div>
       </form>

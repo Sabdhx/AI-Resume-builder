@@ -177,75 +177,27 @@ function ProfessionalExperience({
     setLoading(true);
 
     setIsOpen(true);
-    // const data = {
-    //   data: {
-    //     Experience: .map(({ id, ...rest }) => rest),
-    //   },
-    // };
-    // GlobalApi.uploadPersonalInformation({ id, data })
-    // .then(
-    //   (prev: any) => {
-    //     // console.log(prev)
-    //     setLoading(false);
-    //   },
-    //   (error: any) => {
-    //     setLoading(false);
-    //     console.log(error.message);
-    //   }
-    // );
-
-
-
-
-
-
-
-
-  try {
-    const response = await axios.put(
-      "http://localhost:1337/api/user-resumes/ra28uckeoj4gmjsv9g4rsr2j", // Use the correct ID
-      {
-        data: {
-          experience: [
-            {
-              title: "Full Stack Developer",
-              companyName: "Amazon",
-              city: "New York",
-              state: "NY",
-              startDate: "Jan 2021",
-              endDate: "Dec 2021",
-              currentlyWorking: true,
-              workSummery:
-                "Designed, developed, and maintained full-stack applications using React and Node.js.\n" +
-                "• Implemented responsive user interfaces with React, ensuring seamless user experiences across\n" +
-                "various devices and browsers.\n" +
-                "• Maintaining the React Native in-house organization application.\n" +
-                "• Created RESTful APIs with Node.js and Express, facilitating data communication between the front-end and back-end systems.",
-            },
-          ],
-        },
+    const data = {
+     
+        Experience: resume.experience.map(({ id, ...rest }) => rest),
+   
+    };
+    console.log("Experience",data)
+    GlobalApi.uploadPersonalInformation({ id, data })
+    .then(
+      (prev: any) => {
+        setLoading(false);
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
+      (error: any) => {
+        setLoading(false);
+        console.log(error.message);
       }
     );
-
-    console.log("Experience Updated:", response.data);
-  } catch (error) {
-    console.error("Error updating experience:", error);
-  }
-
-
-
-
 };
 
   return (
     <>
-      <form >
+      <div >
         {resume.experience.map((item, index) => (
           <div key={index}>
             <div className="flex justify-between gap-4 my-4">
@@ -384,20 +336,16 @@ function ProfessionalExperience({
           Add More Experience
         </Button>
 
-        {/* <div className="flex justify-between my-3">
-          <div></div>
-          <div>
-            <Button className="bg-purple-500" type="submit">
-              Save
-            </Button>
-          </div>
-        </div> */}
-      </form>
+       
+      </div>
 
-
-      <Button className="bg-purple-500" onClick={handleSave}>
+ <div className="flex justify-between">
+  <div></div>
+  <div><Button className="bg-purple-500" onClick={handleSave}>
               Save
-            </Button>
+            </Button></div>
+ </div>
+      
     </>
   );
 }

@@ -50,6 +50,16 @@
       "type": "component",
       "repeatable": true,
       "component": "experience.experience"
+    },
+    "Education": {
+      "type": "component",
+      "repeatable": true,
+      "component": "education.education"
+    },
+    "Skills": {
+      "type": "component",
+      "repeatable": true,
+      "component": "skills.skills"
     }
   }
 }

@@ -3,13 +3,19 @@ import { Input } from "../../../ui/input";
 import { Button } from "../../../ui/button";
 import { Resume } from "../../../../../dummyData/dummy";
 import { Textarea } from "../../../ui/text";
+import GlobalApi from "../../../../../services/GlobalApi";
 
 type Props = {
   resume: Resume;
   setResume: React.Dispatch<React.SetStateAction<Resume>>;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    id: string;
 };
 
-function EducationForm({ resume, setResume }: Props) {
+function EducationForm({ resume, setResume,setIsOpen,isOpen,id }: Props) {
+    const [loading, setLoading] = useState(false);
+  
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -61,8 +67,31 @@ function EducationForm({ resume, setResume }: Props) {
     }));
   };
 
+
+const handleSave = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    setIsOpen(true);
+    const data = {Education: resume.education.map(({ id, ...rest }) => rest)};
+    // console.log("Education",data)
+    console.log(id)
+    GlobalApi.uploadPersonalInformation({ id, data })
+    .then(
+      (prev: any) => {
+        setLoading(false);
+      },
+      (error: any) => {
+        setLoading(false);
+        console.log(error.message);
+      }
+    );
+};
+
+
+
   return (
-    <div>
+    <form onSubmit={handleSave}>
       {resume.education.map((item, index) => (
         <div key={index}>
           <div className="flex-1">
@@ -149,7 +178,13 @@ function EducationForm({ resume, setResume }: Props) {
       <Button className="mx-4" onClick={handleAddExperience}>
         Add More Experience
       </Button>
-    </div>
+
+
+      <Button className="bg-purple-500" type="submit" onClick={handleSave}>
+              Save
+      </Button>
+
+    </form>
   );
 }
 
