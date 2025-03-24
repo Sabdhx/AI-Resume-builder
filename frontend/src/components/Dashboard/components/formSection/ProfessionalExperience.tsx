@@ -87,7 +87,7 @@ function ProfessionalExperience({
     const { name, value } = e.target;
     setResume((prev) => ({
       ...prev,
-      experience: prev.experience.map((item, i) =>
+      Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
       ),
     }));
@@ -100,7 +100,7 @@ function ProfessionalExperience({
     const { name, value } = e.target;
     setResume((prev) => ({
       ...prev,
-      experience: prev.experience.map((item, i) =>
+      Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
       ),
     }));
@@ -113,7 +113,7 @@ function ProfessionalExperience({
     const { value } = e.target;
     setResume((prev) => ({
       ...prev,
-      experience: prev.experience.map((item, i) =>
+      Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, workSummery: value } : item
       ),
     }));
@@ -122,10 +122,10 @@ function ProfessionalExperience({
   const handleAddExperience = () => {
     setResume((prevResume) => ({
       ...prevResume,
-      experience: [
-        ...prevResume.experience,
+      Experience: [
+        ...prevResume.Experience,
         {
-          id: prevResume.experience.length,
+          id: prevResume.Experience.length,
           title: "",
           companyName: "",
           city: "",
@@ -140,7 +140,7 @@ function ProfessionalExperience({
 
     setFormData((prevResume) => ({
       ...prevResume,
-      experience: [
+      Experience: [
         {
           id: prevResume.length,
           title: "",
@@ -159,14 +159,14 @@ function ProfessionalExperience({
   const deleteExperience = (index: number) => {
     setResume((prev) => ({
       ...prev,
-      experience: prev.experience.filter((_, i) => i !== index),
+      Experience: prev.Experience.filter((_, i) => i !== index),
     }));
   };
 
   const handleSummaryGeneration = (summary: string, index: number) => {
     setResume((prevResume) => ({
       ...prevResume,
-      experience: prevResume.experience.map((item, i) =>
+      Experience: prevResume.Experience.map((item, i) =>
         i === index ? { ...item, workSummery: summary } : item
       ),
     }));
@@ -179,7 +179,7 @@ function ProfessionalExperience({
     setIsOpen(true);
     const data = {
      
-        Experience: resume.experience.map(({ id, ...rest }) => rest),
+        Experience: resume.Experience.map(({ id, ...rest }) => rest),
    
     };
     console.log("Experience",data)
@@ -198,7 +198,7 @@ function ProfessionalExperience({
   return (
     <>
       <div >
-        {resume.experience.map((item, index) => (
+        {resume?.Experience?.map((item, index) => (
           <div key={index}>
             <div className="flex justify-between gap-4 my-4">
               <div className="flex-1">

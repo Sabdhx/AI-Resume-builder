@@ -28,7 +28,6 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
   const handleSave = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-
     console.log("formData...", { ...formdata });
     setIsOpen(true);
     GlobalUpdate.uploadPersonalInformation({ id, data: { ...formdata } }).then(
@@ -41,6 +40,8 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
         console.log(error.message);
       }
     );
+    setIsOpen(true)
+
   };
   console.log("ideeeee", id);
   return (

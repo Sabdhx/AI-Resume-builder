@@ -19,10 +19,10 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
   const addNewSkill = () => {
     setResume((prev) => ({
       ...prev,
-      skills: [
-        ...prev.skills,
+      Skills: [
+        ...prev.Skills,
         {
-          id: prev.skills.length,
+          id: prev.Skills.length,
           name: "",
           rating: "",
         },
@@ -31,10 +31,10 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
   };
 
   const removeButton = (item: any, index: number) => {
-    const filteration = resume.skills.filter((item, i) => {
+    const filteration = resume.Skills.filter((item, i) => {
       return index !== i;
     });
-    setResume({ ...resume, skills: filteration });
+    setResume({ ...resume, Skills: filteration });
   };
 
   const handleSave = async (e: any) => {
@@ -42,7 +42,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
     setLoading(true);
 
     setIsOpen(true);
-    const data = { Skills: resume.skills.map(({ id, ...rest }) => rest) };
+    const data = { Skills: resume.Skills.map(({ id, ...rest }) => rest) };
     // console.log("Education",data)
     console.log(id);
     GlobalApi.uploadPersonalInformation({ id, data }).then(
@@ -58,7 +58,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
 
   return (
     <form onSubmit={handleSave}>
-      {resume.skills.map((item, index) => (
+      {resume?.Skills?.map((item, index) => (
         <div key={index} className="m-4 border p-3 rounded-xl shadow-lg   ">
           <div className="flex items-center gap-x-4 w-full">
             {/* Name Input Section */}
@@ -75,7 +75,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
                 onChange={(e) => {
                   setResume((prev) => ({
                     ...prev,
-                    skills: prev.skills.map((skill, i) =>
+                    Skills: prev.Skills.map((skill, i) =>
                       index === i
                         ? { ...skill, [e.target.name]: e.target.value }
                         : skill
@@ -100,7 +100,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
       ))}
       <div>
         <Button className="m-4" onClick={addNewSkill}>
-          Add skills
+          Add Skills
         </Button>
       </div>
 

@@ -402,6 +402,7 @@ export interface ApiUserResumeUserResume extends Struct.CollectionTypeSchema {
     ResumeId: Schema.Attribute.UID;
     Skills: Schema.Attribute.Component<'skills.skills', true>;
     summery: Schema.Attribute.Text;
+    themeColor: Schema.Attribute.String;
     title: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

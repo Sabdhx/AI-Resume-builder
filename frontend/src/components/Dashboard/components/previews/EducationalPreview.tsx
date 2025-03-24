@@ -8,7 +8,7 @@ type Props = {
 function EducationalPreview({ resume }: Props) {
   return (
     <div>
-      {resume.education.map((edu, index) => (
+      {resume?.Education?.map((edu, index) => (
         <div key={index} className="my-3">
           <div className="text-xl font-medium">{edu.universityName}</div>
           <div className="flex justify-between">

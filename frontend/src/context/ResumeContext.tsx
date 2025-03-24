@@ -70,7 +70,10 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const decrementingComponentNumber = () => {
-    setComponentNumber(componentNumber - 1);
+    if(componentNumber>0){
+      setComponentNumber(componentNumber - 1);
+
+    }
   };
   return (
     <ResumeContext.Provider

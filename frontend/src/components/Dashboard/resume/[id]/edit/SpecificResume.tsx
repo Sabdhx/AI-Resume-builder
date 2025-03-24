@@ -15,47 +15,75 @@ import EducationForm from "../../../components/formSection/EducationForm";
 import Skills from "../../../components/formSection/Skills";
 import { useParams } from "react-router-dom";
 import GlobalApi from "../../../../../../services/GlobalApi";
+import axios from "axios";
 function SpecificResume() {
-  const {  majorResume, setMajorResume,isOpen,setIsOpen } = useResume();
-  const [loading,setLoading] = useState(false)
- const params = useParams();
- useEffect(()=>{
-  const gettingData = async()=>{
-    setLoading(true)
-    const id:string  = params.id
-    const response =await GlobalApi.getData(id);
-    console.log(response.data.data)
-
-    // setMajorResume(response?.data?.data)
-    setLoading(false)
-  }
- gettingData()
- },[])
+  const { majorResume, setMajorResume, isOpen, setIsOpen } = useResume();
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  useEffect(() => {
+    const gettingData = async () => {
+      const id = params.id;
+      const response = await axios.get(
+        `http://localhost:1337/api/user-resumes/${id}?populate=*`
+      );
+      console.log(response.data.data);
+      const data = response.data.data;
+      setMajorResume(data);
+    };
+    gettingData();
+  }, []);
   const steps = [
-    <PersonalDetail resume={majorResume} setResume={setMajorResume} id={params.id}  isOpen={isOpen} setIsOpen={setIsOpen}/>,
-    <Summary resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
-    <ProfessionalExperience resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
-    <EducationForm resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>,
-    <Skills resume={majorResume} setResume={setMajorResume} isOpen={isOpen} setIsOpen={setIsOpen} id={params.id}/>
+    <PersonalDetail
+      resume={majorResume}
+      setResume={setMajorResume}
+      id={params.id}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    />,
+    <Summary
+      resume={majorResume}
+      setResume={setMajorResume}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      id={params.id}
+    />,
+    <ProfessionalExperience
+      resume={majorResume}
+      setResume={setMajorResume}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      id={params.id}
+    />,
+    <EducationForm
+      resume={majorResume}
+      setResume={setMajorResume}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      id={params.id}
+    />,
+    <Skills
+      resume={majorResume}
+      setResume={setMajorResume}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      id={params.id}
+    />,
   ];
 
   const { componentNumber, incrementingComponentNumber } = useResume();
+
   const resumeThemeColor = majorResume.themeColor;
-
-
-
   return (
     <div className="flex justify-between mx-[10%]">
       {componentNumber < 5 ? (
         <>
           <div className="flex-1 ">
-            <SmallNavbar isOpen={isOpen} />
+            <SmallNavbar isOpen={isOpen} resume={majorResume} />
 
             <div className="m-4 border p-3 rounded-xl shadow-lg border-t-4 border-purple-500">
               {steps[componentNumber]}
               <div className="flex justify-between m-2 ">
                 <div></div>{" "}
-             
               </div>
             </div>
           </div>
@@ -63,7 +91,7 @@ function SpecificResume() {
           <div className="flex-1 bg-red-200 px-9">
             <hr className={`mb-7 `} style={{ borderColor: resumeThemeColor }} />
             <div>
-              <PersonalDetailPreview resume={majorResume}  />
+              <PersonalDetailPreview resume={majorResume} />
             </div>
             <hr
               className={`border-t-2 `}

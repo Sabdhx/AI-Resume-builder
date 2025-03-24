@@ -17,7 +17,7 @@ const StarRating = ({resume,setResume,index}:Props) => {
       const convertingDegree:any | number = rating * 20
       setResume((prev) => ({
         ...prev,
-        skills: prev.skills.map((skill, i) =>
+        Skills: prev.Skills.map((skill, i) =>
           index === i ? { ...skill,rating:convertingDegree } : skill
         ),
       }));
