@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Rating, Rating as StarComponent } from "@smastrom/react-rating";
+import { Rating as StarComponent } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { Resume } from "../../../../dummyData/dummy";
+import { useResume } from "../../../context/ResumeContext";
 
-type Props={
-  resume:Resume;
-  setResume:React.Dispatch<React.SetStateAction<Resume>>;
-  index:number;
+interface StarRatingProps {
+  index: number;
 }
-const StarRating = ({resume,setResume,index}:Props) => {
-  const [rating, setRating] = useState(0);
+
+const StarRating: React.FC<StarRatingProps> = ({ index }) => {
+  const { setMajorResume, majorResume } = useResume();
+  
+  // Get the initial rating from state
+  const [rating, setRating] = useState(majorResume?.Skills?.[index]?.rating / 20 || 0);
 
   useEffect(() => {
-    const handleRating = () => {
+    if (rating !== undefined) {
+      const convertingDegree = rating * 20;
 
-      const convertingDegree:any | number = rating * 20
-      setResume((prev) => ({
+      setMajorResume((prev) => ({
         ...prev,
         Skills: prev.Skills.map((skill, i) =>
-          index === i ? { ...skill,rating:convertingDegree } : skill
+          i === index ? { ...skill, rating: convertingDegree } : skill
         ),
       }));
-    };
-    handleRating();
-  }, [rating,setRating]);
-  
+    }
+  }, [rating]); // Only run when rating changes
+
   return (
     <StarComponent
       style={{ maxWidth: 180 }}
@@ -33,4 +34,5 @@ const StarRating = ({resume,setResume,index}:Props) => {
     />
   );
 };
+
 export default StarRating;

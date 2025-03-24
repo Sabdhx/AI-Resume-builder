@@ -12,7 +12,9 @@ import SignIn from "./components/auth/SignIn";
 import { useUser } from "@clerk/clerk-react";
 import Headers from "./components/headers/Headers";
 import Home from "./components/Home/Home";
-import SpecificResume from "./components/Dashboard/resume/[id]/edit/SpecificResume";
+import SpecificResume from "./components/Dashboard/components/edit/SpecificResume";
+import MyResumeDownload from "./my-resume/[resumeId]/view";
+
 function App() {
   const { user, isLoaded, isSignedIn } = useUser();
   const navigate = useNavigate();
@@ -31,6 +33,14 @@ function App() {
           <Route
             path="/Dashboard/resume/:id/edit"
             element={<SpecificResume />}
+          />
+          <Route
+            path="/Dashboard/resume/:id/edit"
+            element={<SpecificResume />}
+          />
+           <Route
+            path="/my-resume/:id/view"
+            element={<MyResumeDownload />}
           />
         </>
       ) : (

@@ -10,7 +10,7 @@ import axios from 'axios'
 
 
 
-function ThemeColor(resume:Resume) {
+function ThemeColor() {
     const colors=[
         "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF",
         "#33FFA1", "#FF7133", "#71FF33", "#7133FF", "#FF3371",
@@ -19,25 +19,22 @@ function ThemeColor(resume:Resume) {
     ]
    const {majorResume,setMajorResume}  = useResume()
     const [selectedColor,setSelectedColor]=useState();
-    const {id} = useParams();
+    const {id} = useParams() as {id:string}
     console.log(id)
-    const onColorSelect=(color)=>{
+    const onColorSelect=(color:any)=>{
         setSelectedColor(color)
         setMajorResume({
             ...majorResume,
             themeColor:color
         });
-        const data={
-         
+        const data={        
                 themeColor:color
-           
         }
         GlobalApi.uploadPersonalInformation({id,data}).then(resp=>{
             console.log(resp);
         },(error:any)=>{
           console.log(error.message);
         })
-        // const response  = axios.put(`http://localhost:1337/api/user-resumes/${id}`,{data})
     }
 
   return (
@@ -50,7 +47,7 @@ function ThemeColor(resume:Resume) {
   <PopoverContent>
     <h2 className='mb-2 text-sm font-bold'>Select Theme Color</h2>
     <div className='grid grid-cols-5 gap-3'>
-        {colors.map((item,index)=>(
+        {colors.map((item)=>(
             <div 
             onClick={()=>onColorSelect(item)}
             className={`h-5 w-5 rounded-full cursor-pointer

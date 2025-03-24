@@ -1,15 +1,12 @@
 import React from 'react'
 import { Resume } from '../../../../../dummyData/dummy'
+import { useResume } from '../../../../context/ResumeContext'
 
-type Props = {
-  resume: Resume
-}
-
-
-const SummaryPreview = ({resume}: Props) => {
+const SummaryPreview = () => {
+  const {majorResume} = useResume()
   return (
     <div className='font-medium my-3' >
-      <h2>{resume.summery}</h2>
+      <h2>{majorResume.summery}</h2>
     </div>
   )
 }

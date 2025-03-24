@@ -5,28 +5,25 @@ import { Button } from "../../../ui/button";
 import { AIchatSession } from "../../../../../services/GeminiAi";
 import { Loader } from "lucide-react";
 import GlobalApi from "../../../../../services/GlobalApi";
+import { useResume } from "../../../../context/ResumeContext";
+import { useParams } from "react-router-dom";
 
 
-type Props = {
-  resume: Resume;
-  setResume: React.Dispatch<React.SetStateAction<Resume>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id:string
-};
 
 const prompt: string =
   "Job Title: {jobTitle} , Depends on job title give me list of summery for 3 experience levels, Mid Level and Fresher level in 3 -4 lines in array format, With summery and experience_level Field in JSON Format";
 
-export default function Summary({ resume, setResume, isOpen, setIsOpen,id }: Props) {
+export default function Summary() {
   
   const [loading, setLoading] = useState(false);
   const [AiSummary, setAiSummary] = useState<any[]>([]);
   const [summery, setSummery] = useState("");
+  const {majorResume,setMajorResume,setIsOpen} = useResume()
+  const {id} = useParams() as {id: string}
 
   const handleAiGeneration = async () => {
     setLoading(true);
-    const PROMPT = prompt.replace("{jobTitle}", resume?.jobTitle || "");
+    const PROMPT = prompt.replace("{jobTitle}", majorResume?.jobTitle || "");
 
     try {
       const callingApi = await AIchatSession.sendMessage(PROMPT);
@@ -64,7 +61,7 @@ export default function Summary({ resume, setResume, isOpen, setIsOpen,id }: Pro
  console.log("summery",summery)
 
   const handleGenerateSummaryThroughGemini = (item: any) => {
-    setResume((prevResume) => ({
+    setMajorResume((prevResume) => ({
       ...prevResume,
       summery: item.summary,
     }));
@@ -90,11 +87,11 @@ export default function Summary({ resume, setResume, isOpen, setIsOpen,id }: Pro
         <Textarea
           id="Summary"
           name="summery"
-          value={resume.summery || summery}
+          value={majorResume.summery || summery}
           onChange={(e)=>{
             const { name, value } = e.target;
             console.log(name)
-            setResume((prevResume) => ({
+            setMajorResume((prevResume) => ({
               ...prevResume,
               [name]: value,
             }));

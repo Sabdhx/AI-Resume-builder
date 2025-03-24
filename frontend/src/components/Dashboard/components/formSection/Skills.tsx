@@ -4,37 +4,34 @@ import { Input } from "../../../ui/input";
 import { Button } from "../../../ui/button";
 import StarRating from "../Rating";
 import GlobalApi from "../../../../../services/GlobalApi";
+import { useParams } from "react-router-dom";
+import { useResume } from "../../../../context/ResumeContext";
 
-type Props = {
-  resume: Resume;
-  setResume: React.Dispatch<React.SetStateAction<Resume>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: string;
-};
 
-function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
+
+function Skills() {
   const [loading, setLoading] = useState(false);
-
+  const {majorResume,setMajorResume,setIsOpen} = useResume()
+  const {id} = useParams() as {id: string}
   const addNewSkill = () => {
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Skills: [
         ...prev.Skills,
         {
           id: prev.Skills.length,
           name: "",
-          rating: "",
+          rating: 0,
         },
       ],
     }));
   };
 
   const removeButton = (item: any, index: number) => {
-    const filteration = resume.Skills.filter((item, i) => {
+    const filteration = majorResume.Skills.filter((item, i) => {
       return index !== i;
     });
-    setResume({ ...resume, Skills: filteration });
+    setMajorResume({ ...majorResume, Skills: filteration });
   };
 
   const handleSave = async (e: any) => {
@@ -42,8 +39,8 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
     setLoading(true);
 
     setIsOpen(true);
-    const data = { Skills: resume.Skills.map(({ id, ...rest }) => rest) };
-    // console.log("Education",data)
+    const data = { Skills: majorResume.Skills.map(({ id, ...rest }) => rest) };
+    console.log(data)
     console.log(id);
     GlobalApi.uploadPersonalInformation({ id, data }).then(
       (prev: any) => {
@@ -55,10 +52,9 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
       }
     );
   };
-
   return (
     <form onSubmit={handleSave}>
-      {resume?.Skills?.map((item, index) => (
+      {majorResume?.Skills?.map((item, index:number) => (
         <div key={index} className="m-4 border p-3 rounded-xl shadow-lg   ">
           <div className="flex items-center gap-x-4 w-full">
             {/* Name Input Section */}
@@ -73,7 +69,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
                 name="name"
                 required
                 onChange={(e) => {
-                  setResume((prev) => ({
+                  setMajorResume((prev) => ({
                     ...prev,
                     Skills: prev.Skills.map((skill, i) =>
                       index === i
@@ -87,7 +83,7 @@ function Skills({ resume, setResume ,isOpen,setIsOpen,id}: Props) {
 
             {/* Rating Section */}
             <div className="flex items-center  p-2 rounded-md">
-              <StarRating resume={resume} setResume={setResume} index={index} />
+              <StarRating index={index} />
             </div>
           </div>
 

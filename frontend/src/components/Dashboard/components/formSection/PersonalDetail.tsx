@@ -1,36 +1,33 @@
 import { useState } from "react";
 import { Input } from "../../../ui/input";
 import { Button } from "../../../ui/button";
-import { Resume } from "../../../../../dummyData/dummy";
 import { useResume } from "../../../../context/ResumeContext";
-import axios from "axios";
 import GlobalUpdate from "../../../../../services/GlobalApi";
+import { useParams } from "react-router-dom";
 
-type Props = {
-  resume: Resume;
-  setResume: React.Dispatch<React.SetStateAction<Resume>>;
-  id: string;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+function PersonalDetail() {
+  const { majorResume, setMajorResume, setIsOpen } = useResume();
+  const { id } = useParams() as { id: string };
+ 
 
-function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
-  const [loading, setLoading] = useState(false);
-  const [formdata, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    jobTitle: "",
-  });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSave = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    console.log("formData...", { ...formdata });
     setIsOpen(true);
-    GlobalUpdate.uploadPersonalInformation({ id, data: { ...formdata } }).then(
+    console.log(majorResume);
+    GlobalUpdate.uploadPersonalInformation({
+      id,
+      data: {
+        firstName: majorResume.firstName,
+        lastName: majorResume.lastName,
+        jobTitle: majorResume.jobTitle,
+        address: majorResume.address,
+        phone: majorResume.phone,
+        email: majorResume.email,
+      },
+    }).then(
       (prev: any) => {
         console.log(prev);
         setLoading(false);
@@ -40,10 +37,8 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
         console.log(error.message);
       }
     );
-    setIsOpen(true)
-
+    setIsOpen(true);
   };
-  console.log("ideeeee", id);
   return (
     <div className=" px-3 ">
       <form onSubmit={handleSave}>
@@ -58,11 +53,10 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
               name="firstName"
               className=""
               id="First Name"
-              value={resume.firstName || formdata.firstName}
+              value={majorResume.firstName}
               onChange={(e) => {
                 const { value, name } = e.target;
-                setResume({ ...resume, [name]: value });
-                setFormData({ ...formdata, [name]: value });
+                setMajorResume({ ...majorResume, [name]: value });
               }}
             />
           </div>
@@ -73,14 +67,13 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
               type="text"
               required
               className=""
-              value={resume.lastName}
+              value={majorResume.lastName}
               id="last Name"
               name="lastName"
               onChange={(e) => {
                 const { value, name } = e.target;
 
-                setResume({ ...resume, [name]: value });
-                setFormData({ ...formdata, [name]: value });
+                setMajorResume({ ...majorResume, [name]: value });
               }}
             />
           </div>
@@ -91,14 +84,13 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
             type="text"
             required
             className=""
-            value={resume.jobTitle}
+            value={majorResume.jobTitle}
             id="Job Title"
             name="jobTitle"
             onChange={(e) => {
               const { value, name } = e.target;
 
-              setResume({ ...resume, [name]: value });
-              setFormData({ ...formdata, [name]: value });
+              setMajorResume({ ...majorResume, [name]: value });
             }}
           />
         </div>
@@ -109,14 +101,13 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
             type="text"
             required
             className=""
-            value={resume.address}
+            value={majorResume.address}
             id="Address"
             name="address"
             onChange={(e) => {
               const { value, name } = e.target;
 
-              setResume({ ...resume, [name]: value });
-              setFormData({ ...formdata, [name]: value });
+              setMajorResume({ ...majorResume, [name]: value });
             }}
           />
         </div>
@@ -128,14 +119,13 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
               type="text"
               required
               className=""
-              value={resume.phone}
+              value={majorResume.phone}
               id="Phone"
               name="phone"
               onChange={(e) => {
                 const { value, name } = e.target;
 
-                setResume({ ...resume, [name]: value });
-                setFormData({ ...formdata, [name]: value });
+                setMajorResume({ ...majorResume, [name]: value });
               }}
             />
           </div>
@@ -147,13 +137,12 @@ function PersonalDetail({ resume, setResume, id, isOpen, setIsOpen }: Props) {
               required
               className=""
               id="email"
-              value={resume.email}
+              value={majorResume.email}
               name="email"
               onChange={(e) => {
                 const { value, name } = e.target;
 
-                setResume({ ...resume, [name]: value });
-                setFormData({ ...formdata, [name]: value });
+                setMajorResume({ ...majorResume, [name]: value });
               }}
             />
           </div>

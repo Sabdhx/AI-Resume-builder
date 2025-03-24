@@ -22,30 +22,22 @@ import { AIchatSession } from "../../../../../services/GeminiAi";
 import { Loader } from "lucide-react";
 import GlobalApi from "../../../../../services/GlobalApi";
 import axios from "axios";
+import { useResume } from "../../../../context/ResumeContext";
+import { useParams } from "react-router-dom";
 const API_KEY = import.meta.env.VITE_STRAPI_API_KEY;
 
-type Props = {
-  resume: Resume;
-  setResume: React.Dispatch<React.SetStateAction<Resume>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: string;
-};
+
 
 type AIWorkSummary = {
   summary: string;
   experience_level: string;
 };
 
-function ProfessionalExperience({
-  resume,
-  setResume,
-  isOpen,
-  setIsOpen,
-  id
-}: Props) {
+function ProfessionalExperience() {
   const [loading, setLoading] = useState(false);
   const [aiWorkSummery, setAiWorkSummery] = useState<AIWorkSummary[]>([]);
+  const {majorResume,setMajorResume,setIsOpen} = useResume()
+  const {id} = useParams() as {id: string}
   const [formData, setFormData] = useState([
     {
       id: "",
@@ -60,32 +52,32 @@ function ProfessionalExperience({
     },
   ]);
 
-  console.log("this is the real one ", resume.experience);
+  console.log("this is the real one ", majorResume.Experience);
   const prompt: string =
     "Job Title: {jobTitle} , Depends on job title give me list of  summery for 3 experience level, Mid Level and Freasher level in 3 -4 lines in array format, With summery and experience_level Field in JSON Format";
 
   const handleAiGeneration = async () => {
     setLoading(true);
-    const PROMPT = prompt.replace("{jobTitle}", resume?.jobTitle || "");
+    const PROMPT = prompt.replace("{jobTitle}", majorResume?.jobTitle || "");
 
     try {
       const callingApi = await AIchatSession.sendMessage(PROMPT);
       const result = await callingApi.response.text();
       const parsedResult = JSON.parse(result);
       setAiWorkSummery(parsedResult);
-    } catch (error) {
+    } catch (error:any) {
       console.error("AI Error:", error.message);
     } finally {
       setLoading(false);
     }
   };
-
+console.log(aiWorkSummery)
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { name, value } = e.target;
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
@@ -98,7 +90,7 @@ function ProfessionalExperience({
     index: number
   ) => {
     const { name, value } = e.target;
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
@@ -111,7 +103,7 @@ function ProfessionalExperience({
     index: number
   ) => {
     const { value } = e.target;
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Experience: prev.Experience.map((item, i) =>
         i === index ? { ...item, workSummery: value } : item
@@ -120,7 +112,7 @@ function ProfessionalExperience({
   };
 
   const handleAddExperience = () => {
-    setResume((prevResume) => ({
+  setMajorResume((prevResume) => ({
       ...prevResume,
       Experience: [
         ...prevResume.Experience,
@@ -157,14 +149,14 @@ function ProfessionalExperience({
   };
 
   const deleteExperience = (index: number) => {
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Experience: prev.Experience.filter((_, i) => i !== index),
     }));
   };
 
   const handleSummaryGeneration = (summary: string, index: number) => {
-    setResume((prevResume) => ({
+    setMajorResume((prevResume) => ({
       ...prevResume,
       Experience: prevResume.Experience.map((item, i) =>
         i === index ? { ...item, workSummery: summary } : item
@@ -179,7 +171,7 @@ function ProfessionalExperience({
     setIsOpen(true);
     const data = {
      
-        Experience: resume.Experience.map(({ id, ...rest }) => rest),
+        Experience: majorResume.Experience.map(({ id, ...rest }) => rest),
    
     };
     console.log("Experience",data)
@@ -198,7 +190,7 @@ function ProfessionalExperience({
   return (
     <>
       <div >
-        {resume?.Experience?.map((item, index) => (
+        {majorResume?.Experience?.map((item, index) => (
           <div key={index}>
             <div className="flex justify-between gap-4 my-4">
               <div className="flex-1">
@@ -320,9 +312,9 @@ function ProfessionalExperience({
               >
                 <p
                   className="text-md cursor-pointer"
-                  onClick={() => handleSummaryGeneration(aiItem.summery, index)}
+                  onClick={() => handleSummaryGeneration(aiItem.summary, index)}
                 >
-                  {aiItem.summery}
+                  {aiItem.summary}
                 </p>
               </div>
             ))}

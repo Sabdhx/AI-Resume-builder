@@ -1,30 +1,38 @@
-import React from "react";
-import { Resume } from "../../../../../dummyData/dummy";
+import { useResume } from "../../../../context/ResumeContext"
 
-type Props = {
-  resume: Resume;
-};
-
-function SkillPreview({ resume }: Props) {
- 
+ const SkillPreview=()=> {
+  const {majorResume} = useResume()
   return (
-    <div className="grid grid-cols-2 gap-6 my-3">
-      {resume?.Skills?.map((item, index) => (
-        <div key={index} className="flex items-center gap-4">
-          <h1 className="w-1/3 text-lg font-semibold">{item.name}</h1>
+    <>
+    <div className='my-6'>
+    <h2 className='text-center font-bold text-sm mb-2'
+    style={{
+        color:majorResume?.themeColor
+    }}
+    >Education</h2>
+    <hr style={{
+        borderColor:majorResume?.themeColor
+    }} />
 
-          {item.rating !== "" && (
-            <div className="w-2/3 bg-gray-300 h-4 rounded-full overflow-hidden">
-              <div
-                className={`h-full`} 
-  style={{ background:resume?.themeColor, width: `${item.rating}%` }}
-              ></div>
+    <div className='grid grid-cols-2 gap-3 my-4'>
+        {majorResume?.Skills.map((skill,index)=>(
+            <div key={index} className='flex items-center justify-between'>
+                <h2 className='text-xs'>{skill.name}</h2>
+                <div className='h-2 bg-gray-200 w-[120px]'>
+                    <div className='h-2'
+                        style={{
+                            backgroundColor:majorResume?.themeColor,
+                            width:skill?.rating+'%'
+                        }}
+                    >
+                    </div>
+                </div>
             </div>
-          )}
-        </div>
-      ))}
+        ))}
     </div>
-  );
+    </div>
+    </>
+  )
 }
 
-export default SkillPreview;
+export default SkillPreview

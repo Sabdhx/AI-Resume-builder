@@ -8,7 +8,7 @@ function Headers() {
    const { user, isLoaded, isSignedIn } = useUser();
    return (
 
-    <div className='p-3 px-5 flex justify-between shadow-md'>
+    <div className='p-3 px-5 flex justify-between shadow-md print:hidden'>
         <img src="/logo.svg" alt="" className='h-[50px] w-[50px]'/>
         {
             isSignedIn && isLoaded ? (

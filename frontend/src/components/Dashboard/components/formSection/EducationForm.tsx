@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 import { Input } from "../../../ui/input";
 import { Button } from "../../../ui/button";
-import { Resume } from "../../../../../dummyData/dummy";
 import { Textarea } from "../../../ui/text";
 import GlobalApi from "../../../../../services/GlobalApi";
-type Props = {
-  resume: Resume;
-  setResume: React.Dispatch<React.SetStateAction<Resume>>;
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    id: string;
-};
+import { useResume } from "../../../../context/ResumeContext";
+import { useParams } from "react-router-dom";
 
-function EducationForm({ resume, setResume,setIsOpen,isOpen,id }: Props) {
+function EducationForm() {
     const [loading, setLoading] = useState(false);
-  
+    const {majorResume,setMajorResume,setIsOpen} = useResume()
+  const {id} = useParams() as {id: string}
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { name, value } = e.target;
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Education: prev.Education.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
@@ -33,7 +28,7 @@ function EducationForm({ resume, setResume,setIsOpen,isOpen,id }: Props) {
     index: number
   ) => {
     const { name, value } = e.target;
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Education: prev.Education.map((item, i) =>
         i === index ? { ...item, [name]: value } : item
@@ -42,7 +37,7 @@ function EducationForm({ resume, setResume,setIsOpen,isOpen,id }: Props) {
   };
 
   const handleAddExperience = () => {
-    setResume((prevResume) => ({
+    setMajorResume((prevResume) => ({
       ...prevResume,
       Education: [
         ...prevResume.Education,
@@ -60,7 +55,7 @@ function EducationForm({ resume, setResume,setIsOpen,isOpen,id }: Props) {
   };
 
   const deleteExperience = (index: number) => {
-    setResume((prev) => ({
+    setMajorResume((prev) => ({
       ...prev,
       Education: prev.Education.filter((_, i) => i !== index),
     }));
@@ -72,7 +67,7 @@ const handleSave = async (e: any) => {
     setLoading(true);
 
     setIsOpen(true);
-    const data = {Education: resume.Education.map(({ id, ...rest }) => rest)};
+    const data = {Education: majorResume.Education.map(({ id, ...rest }) => rest)};
     // console.log("Education",data)
     console.log(id)
     GlobalApi.uploadPersonalInformation({ id, data })
@@ -91,7 +86,7 @@ const handleSave = async (e: any) => {
 
   return (
     <form onSubmit={handleSave}>
-      {resume?.Education?.map((item, index) => (
+      {majorResume?.Education?.map((item, index) => (
         <div key={index}>
           <div className="flex-1">
             <label htmlFor="universityName">University Name</label>

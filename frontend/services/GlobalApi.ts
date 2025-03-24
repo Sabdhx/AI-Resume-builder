@@ -13,36 +13,26 @@ const axiosClient = axios.create({
   },
 });
 
-
-
-
-
 const uploadPersonalInformation = async ({ id, data }: Props) => {
-  console.log("data", {...data});
- 
+  console.log("data", { ...data });
+
   try {
-    const response = await axiosClient.put(
-      `/user-resumes/${id}`,
-      {data}
-    );
-    console.log(response)
-  } catch (error:any) {
-    console.log(error.message)
+    const response = await axiosClient.put(`/user-resumes/${id}`, { data });
+    console.log(response);
+  } catch (error: any) {
+    console.log(error.message);
   }
- 
 };
 
- const getData=async(id:string)=>{
+const getData = async (id: string) => {
   try {
-     const response = await axiosClient.get(`/user-resumes/${id}?populate=*`)
-  } catch (error:any) {
-    console.log(error.message)
+    const response = await axiosClient.get(`/user-resumes/${id}?populate=*`);
+  } catch (error: any) {
+    console.log(error.message);
   }
- }
-
-
+};
 
 export default {
   uploadPersonalInformation,
-  getData
+  getData,
 };

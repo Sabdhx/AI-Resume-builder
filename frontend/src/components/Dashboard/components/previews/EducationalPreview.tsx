@@ -1,14 +1,10 @@
-import React from "react";
-import { Resume } from "../../../../../dummyData/dummy";
+import { useResume } from "../../../../context/ResumeContext";
 
-type Props = {
-  resume: Resume;
-};
-
-function EducationalPreview({ resume }: Props) {
+function EducationalPreview() {
+  const { majorResume } = useResume();
   return (
     <div>
-      {resume?.Education?.map((edu, index) => (
+      {majorResume?.Education?.map((edu, index) => (
         <div key={index} className="my-3">
           <div className="text-xl font-medium">{edu.universityName}</div>
           <div className="flex justify-between">
@@ -19,7 +15,9 @@ function EducationalPreview({ resume }: Props) {
             </div>
 
             <div>
-              <h1>{edu.startDate} to {edu.endDate}</h1>
+              <h1>
+                {edu.startDate} to {edu.endDate}
+              </h1>
             </div>
           </div>
           <div className="my-3">

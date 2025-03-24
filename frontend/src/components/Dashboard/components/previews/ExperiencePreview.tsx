@@ -1,16 +1,11 @@
-import React from 'react';
-import { Resume } from '../../../../../dummyData/dummy';
+import { useResume } from "../../../../context/ResumeContext";
 
-type Props = {
-  resume: Resume;
-};
-
-function ExperiencePreview({ resume }: Props) {
-  console.log("experience preview ",resume.Experience)
+function ExperiencePreview() {
+  const { majorResume } = useResume();
   return (
     <div>
-      {resume?.Experience?.map((exp:any ) => (
-        <div  className="my-3">
+      {majorResume?.Experience?.map((exp: any) => (
+        <div className="my-3">
           <div className="text-xl font-medium">{exp.title}</div>
           <div className="flex justify-between">
             <div>
@@ -20,7 +15,8 @@ function ExperiencePreview({ resume }: Props) {
             </div>
             <div>
               <h1>
-                {exp.startDate} {exp.currentlyWorking ? " - Present" : ` - ${exp.endDate}`}
+                {exp.startDate}{" "}
+                {exp.currentlyWorking ? " - Present" : ` - ${exp.endDate}`}
               </h1>
             </div>
           </div>

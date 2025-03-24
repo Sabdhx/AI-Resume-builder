@@ -1,27 +1,26 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import ResumeDataDummy from "../../dummyData/dummy";
-import { Resume } from "../../dummyData/dummy";
-// Define the type for the context
+import { Resume as ResumeType } from "../../dummyData/dummy"; // Ensure correct import
 
-// Create the context with default values
+// Define the type for the context
 interface ResumeContextType {
   componentNumber: number;
   setComponentNumber: React.Dispatch<React.SetStateAction<number>>;
-  changingComponentNumber: () => void;
-  majorResume: Resume;
-  setMajorResume: React.Dispatch<React.SetStateAction<Resume>>;
+  majorResume: ResumeType;
+  setMajorResume: React.Dispatch<React.SetStateAction<ResumeType>>;
   incrementingComponentNumber: () => void;
   decrementingComponentNumber: () => void;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// Create the context with default values
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
 // Provider component
 export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [majorResume, setMajorResume] = useState<Resume>({
+  const [componentNumber, setComponentNumber] = useState(0);
+  const [majorResume, setMajorResume] = useState<ResumeType>({
     firstName: "",
     lastName: "",
     jobTitle: "",
@@ -30,7 +29,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
     email: "",
     themeColor: "#FF0000",
     summery: "",
-    experience: [
+    Experience: [
       {
         id: 0,
         title: "",
@@ -43,7 +42,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
         workSummery: "",
       },
     ],
-    education: [
+    Education: [
       {
         id: 0,
         universityName: "",
@@ -54,7 +53,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
         description: "",
       },
     ],
-    skills: [
+    Skills: [
       {
         id: 0,
         name: "",
@@ -62,33 +61,29 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
       },
     ],
   });
-  const [componentNumber, setComponentNumber] = useState(0);
 
   const incrementingComponentNumber = () => {
-    setComponentNumber(componentNumber + 1);
-    setIsOpen(false)
+    setComponentNumber((prev) => prev + 1);
+    setIsOpen(false);
   };
 
   const decrementingComponentNumber = () => {
-    if(componentNumber>0){
-      setComponentNumber(componentNumber - 1);
-
-    }
+    setComponentNumber((prev) => (prev > 0 ? prev - 1 : 0));
   };
+
   return (
     <ResumeContext.Provider
-  value={{
-    majorResume,
-    setMajorResume,
-    componentNumber,
-    setComponentNumber,  // ✅ Add this
-    incrementingComponentNumber,
-    decrementingComponentNumber,
-    isOpen,
-    setIsOpen,
-    changingComponentNumber: () => {}, // ✅ Add this if not used yet
-  }}
->
+      value={{
+        majorResume,
+        setMajorResume,
+        componentNumber,
+        setComponentNumber,
+        incrementingComponentNumber,
+        decrementingComponentNumber,
+        isOpen,
+        setIsOpen,
+      }}
+    >
       {children}
     </ResumeContext.Provider>
   );
@@ -98,7 +93,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
 export const useResume = () => {
   const context = useContext(ResumeContext);
   if (!context) {
-    throw new Error("there is no context");
+    throw new Error("useResume must be used within a ResumeProvider");
   }
   return context;
 };
